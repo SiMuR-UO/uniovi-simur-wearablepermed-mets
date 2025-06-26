@@ -1,2 +1,2 @@
-# uniovi-simur-wearablepermed-mets
+# Description
 Uniovi Simur WearablePerMed metabolic expenditure
