@@ -10,12 +10,11 @@ import re
 import numpy as np
 import pandas as pd
 
+import matplotlib.pyplot as plt
 
 __author__ = "Pablo Laviana <uo283485@uniovi.es>"
 __copyright__ = "Uniovi"
 __license__ = "MIT"
-
-
 
 
 def columna_excel(string_columna, Actividades, path_excel_FASE_REPOSO_CON_K5, path_excel_TAPIZ_RODANTE, path_excel_SIT_TO_STAND_30_s, path_excel_INCREMENTAL_CICLOERGOMETRO):
@@ -74,9 +73,6 @@ def columna_excel(string_columna, Actividades, path_excel_FASE_REPOSO_CON_K5, pa
  
     return y_METS
 
-
-import matplotlib.pyplot as plt
-
 def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_excel_TAPIZ_RODANTE, 
                     ruta_excel_SIT_TO_STAND_30_s, ruta_excel_INCREMENTAL_CICLOERGOMETRO):
 
@@ -86,7 +82,7 @@ def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_ex
 
         # Importamos los datos
         data = np.load(ruta_datos_features)
-        X = data['arr_0']
+        X = data['arr_--ruta-datos-features0']
         y_Actividades = data['arr_1']
 
         print(np.isnan(X).sum(), np.isinf(X).sum())
@@ -138,14 +134,12 @@ def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_ex
 
     return
 
-
 def setup_logging(loglevel):
 
     logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
     logging.basicConfig(
         level=loglevel, stream=sys.stdout, format=logformat, datefmt="%Y-%m-%d %H:%M:%S"
     )
-
 
 # Argumentos de entrada para llamar al modulo
 def parse_args(args):
@@ -201,7 +195,6 @@ def parse_args(args):
 
     return parser.parse_args(args)
 
-
 def main(args):
 
     args = parse_args(args)
@@ -225,10 +218,6 @@ def run():
 
     # Los args estan en .vscode launch
     main(sys.argv[1:])
-
-
-
-
 
 _logger = logging.getLogger(__name__)
 

@@ -21,6 +21,19 @@ A longer description of your project goes here...
 
 <!-- pyscaffold-notes -->
 
+## Execute from Docker
+
+     ```
+     $ docker run \
+      -v /mnt/nvme1n2/git/uniovi-simur-wearablepermed-data/input:/app/data uniovi-simur-wearablepermed-mets:1.0.0 \
+     python windowing_mets.py \
+     --ruta-datos-features data/PMP1006/data_1006_tot_M_features.npz \
+     --ruta-excel-fase-reposo 'data/PMP1006/PMP1006_REPOSO_20240927(CPET Cámara de Mezcla).xlsx' \
+     --ruta-excel-tapiz-rodante 'data/PMP1006/PMP1006_TREADMILL_20240927(CPET Respiración a Respiración).xlsx' \
+     --ruta-excel-sts 'data/PMP1006/PMP1006_STS_20240927(CPET Respiración a Respiración).xlsx' \
+     --ruta-excel-incremental 'data/PMP1006/PMP1006_GXT_20240927(CPET Respiración a Respiración).xlsx'
+     ```
+
 ## Note
 
 This project has been set up using PyScaffold 4.6. For details and usage
