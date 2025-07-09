@@ -95,7 +95,7 @@ def entrenar_muneca_muslo(ruta_output, nombre_caso, participantes_entrenamiento,
 
     # Guardar ambos valores en un archivo de texto
     with open(ruta_train_muneca_muslo, 'w') as f:
-
+        f.write(f'Participantes: {participantes_entrenamiento}\n')
         f.write(f'MSE Train: {mse_train:.5f}\n')
         f.write(f'R2 Train: {r2_train:.5f}\n')
 
