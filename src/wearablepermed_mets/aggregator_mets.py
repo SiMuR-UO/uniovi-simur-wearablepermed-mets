@@ -57,7 +57,7 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
             lista_archivos_tot_PI_features_mets = [f for f in lista_archivos if '_tot_PI_features_mets' in f]
 
             # Buscar archivos que contengan '_PI_tot'
-            lista_archivos_tot_all_features_mets = [f for f in lista_archivos if '_tot_all_features_mets' in f]
+            lista_archivos_tot_all_features_mets = [f for f in lista_archivos if '_features_all_mets' in f]
 
             # Verificar que existan ambos archivos
             if not lista_archivos_tot_M_features_mets or not lista_archivos_tot_PI_features_mets or not lista_archivos_tot_all_features_mets:
@@ -82,13 +82,36 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
 
             X_tot_M_features_mets = tot_M_features_mets['arr0']
             y_tot_M_features_mets = tot_M_features_mets['arr1']
-            actividades_tot_M_features_mets = tot_M_features_mets['arr2']
-            X_M_participantes.append(X_tot_M_features_mets)
-            y_M_participantes.append(y_tot_M_features_mets)
-            actividades_M_participantes.append(actividades_tot_M_features_mets)
+            y_tot_M_features_mets = y_tot_M_features_mets.reshape(-1, 1)
 
-            id_array = np.array([carpeta] * len(y_tot_M_features_mets))
-            id_participante_M.append(id_array)
+            actividades_tot_M_features_mets = tot_M_features_mets['arr2']
+            actividades_tot_M_features_mets = actividades_tot_M_features_mets.reshape(-1, 1)
+
+            print(X_tot_M_features_mets.shape)
+            print(y_tot_M_features_mets.shape)
+            print(y_tot_M_features_mets.shape)
+
+            if len(X_M_participantes) == 0:
+                X_M_participantes = X_tot_M_features_mets
+            else:
+                X_M_participantes = np.vstack((X_M_participantes, X_tot_M_features_mets))
+
+            if len(y_M_participantes) == 0:
+                y_M_participantes = y_tot_M_features_mets
+            else:
+                y_M_participantes = np.vstack((y_M_participantes, y_tot_M_features_mets))
+
+            if len(actividades_M_participantes) == 0:
+                actividades_M_participantes = actividades_tot_M_features_mets
+            else:
+                actividades_M_participantes = np.vstack((actividades_M_participantes, actividades_tot_M_features_mets))
+
+            id_array = np.array([carpeta] * len(y_tot_M_features_mets)).reshape(-1, 1)
+            if len(id_participante_M) == 0:
+                id_participante_M = id_array
+            else:
+                id_participante_M = np.vstack((id_participante_M, id_array))
+
 
             # Cargar datos de _tot_PI_features_mets
             ruta_tot_PI_features_mets = glob.glob(os.path.join(ruta_completa_PMP, lista_archivos_tot_PI_features_mets[0]))[0]
@@ -97,13 +120,34 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
 
             X_tot_PI_features_mets = tot_PI_features_mets['arr0']
             y_tot_PI_features_mets = tot_PI_features_mets['arr1']
-            actividades_tot_PI_features_mets = tot_PI_features_mets['arr2']
-            X_PI_participantes.append(X_tot_PI_features_mets)
-            y_PI_participantes.append(y_tot_PI_features_mets)
-            actividades_PI_participantes.append(actividades_tot_PI_features_mets)
+            y_tot_PI_features_mets = y_tot_PI_features_mets.reshape(-1, 1)
 
-            id_array = np.array([carpeta] * len(y_tot_PI_features_mets))
-            id_participante_PI.append(id_array)
+            
+
+            actividades_tot_PI_features_mets = tot_PI_features_mets['arr2']
+            actividades_tot_PI_features_mets = actividades_tot_PI_features_mets.reshape(-1, 1)
+
+            if len(X_PI_participantes) == 0:
+                X_PI_participantes = X_tot_PI_features_mets
+            else:
+                X_PI_participantes = np.vstack((X_PI_participantes, X_tot_PI_features_mets))
+
+            if len(y_PI_participantes) == 0:
+                y_PI_participantes = y_tot_PI_features_mets
+            else:
+                y_PI_participantes = np.vstack((y_PI_participantes, y_tot_PI_features_mets))
+
+            if len(actividades_PI_participantes) == 0:
+                actividades_PI_participantes = actividades_tot_PI_features_mets
+            else:
+                actividades_PI_participantes = np.vstack((actividades_PI_participantes, actividades_tot_PI_features_mets))
+
+            id_array = np.array([carpeta] * len(y_tot_PI_features_mets)).reshape(-1, 1)
+            if len(id_participante_PI) == 0:
+                id_participante_PI = id_array
+            else:
+                id_participante_PI = np.vstack((id_participante_PI, id_array))
+
 
             # Cargar datos de _tot_PI_features_mets
             ruta_tot_all_features_mets = glob.glob(os.path.join(ruta_completa_PMP, lista_archivos_tot_all_features_mets[0]))[0]
@@ -112,47 +156,72 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
 
             X_tot_all_features_mets = tot_all_features_mets['arr0']
             y_tot_all_features_mets = tot_all_features_mets['arr1']
-            actividades_tot_all_features_mets = tot_all_features_mets['arr2']
-            X_all_participantes.append(X_tot_all_features_mets)
-            y_all_participantes.append(y_tot_all_features_mets)
-            actividades_all_participantes.append(actividades_tot_all_features_mets)
 
-            id_array = np.array([carpeta] * len(y_tot_all_features_mets))
-            id_participante_all.append(id_array)   
+            y_tot_all_features_mets = tot_PI_features_mets['arr1']
+            y_tot_all_features_mets = y_tot_all_features_mets.reshape(-1, 1)
+
+            actividades_tot_all_features_mets = tot_PI_features_mets['arr2']
+            actividades_tot_all_features_mets = actividades_tot_all_features_mets.reshape(-1, 1)
+
+            if len(X_all_participantes) == 0:
+                X_all_participantes = X_tot_all_features_mets
+            else:
+                X_all_participantes = np.vstack((X_all_participantes, X_tot_all_features_mets))
+
+            print(X_all_participantes.shape)
+
+            if len(y_all_participantes) == 0:
+                y_all_participantes = y_tot_all_features_mets
+            else:
+                y_all_participantes = np.vstack((y_all_participantes, y_tot_all_features_mets))
+
+            if len(actividades_all_participantes) == 0:
+                actividades_all_participantes = actividades_tot_all_features_mets
+            else:
+                actividades_all_participantes = np.vstack((actividades_all_participantes, actividades_tot_all_features_mets))
+
+            id_array = np.array([carpeta] * len(y_tot_all_features_mets)).reshape(-1, 1)
+            if len(id_participante_all) == 0:
+                id_participante_all = id_array
+            else:
+                id_participante_all = np.vstack((id_participante_all, id_array))
+ 
 
         except Exception as e:
             print(f"Error procesando carpeta {carpeta}: {e}")
             print("Se continúa con la siguiente carpeta.")
 
-        ruta_caso = os.path.join(ruta_carpeta_destino, id_caso)
 
-        # Crear carpeta si no existe
-        if not os.path.exists(ruta_caso):
-            os.makedirs(ruta_caso)
-            print(f"📁 Carpeta creada: {ruta_caso}")
 
-            nuevo_nombre = f"data_all_tot_M_features_mets.npz"
-            ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
 
-            np.savez(ruta_guardado, arr0=X_M_participantes, arr1=y_M_participantes, arr2=actividades_M_participantes, arr3=id_participante_M)
 
-            nuevo_nombre = f"data_all_tot_PI_features_mets.npz"
-            ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
-            np.savez(ruta_guardado, arr0=X_PI_participantes, arr1=y_PI_participantes, arr2=actividades_PI_participantes, arr3=id_participante_PI)
+    ruta_caso = os.path.join(ruta_carpeta_destino, id_caso)
 
-            nuevo_nombre = f"data_all_tot_all_features_mets.npz"
-            ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
-            np.savez(ruta_guardado, arr0=X_all_participantes, arr1=y_all_participantes, arr2=actividades_all_participantes, arr3=id_participante_all)
+    # Crear carpeta si no existe
+    if not os.path.exists(ruta_caso):
+        os.makedirs(ruta_caso)
+        print(f"📁 Carpeta creada: {ruta_caso}")
 
-        else:
-            print(f"📁 La carpeta ya existe: {ruta_caso}\n")
-            print(f"NO SE SOBREESCRIBEN LOS DATOS")
+        nuevo_nombre = f"data_all_tot_M_features_mets.npz"
+        ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
 
-        print(id_participante_M)
+        np.savez(ruta_guardado, arr0=X_M_participantes, arr1=y_M_participantes, arr2=actividades_M_participantes, arr3=id_participante_M)
+
+        nuevo_nombre = f"data_all_tot_PI_features_mets.npz"
+        ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
+        np.savez(ruta_guardado, arr0=X_PI_participantes, arr1=y_PI_participantes, arr2=actividades_PI_participantes, arr3=id_participante_PI)
+
+        nuevo_nombre = f"data_all_tot_all_features_mets.npz"
+        ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
+        np.savez(ruta_guardado, arr0=X_all_participantes, arr1=y_all_participantes, arr2=actividades_all_participantes, arr3=id_participante_all)
+
+    else:
+        print(f"📁 La carpeta ya existe: {ruta_caso}\n")
+        print(f"NO SE SOBREESCRIBEN LOS DATOS")
+
+    print(id_participante_M)
 
     return
-
-
 
 def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
 
@@ -255,7 +324,8 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
             if match:
                 numero = match.group(1)
                 
-                nuevo_nombre = f"data_{numero}_tot_all_features_mets.npz"
+                #nuevo_nombre = f"data_{numero}_tot_all_features_mets.npz"
+                nuevo_nombre = f"data_PMP{numero}_features_all_mets.npz"
                 ruta_guardado = os.path.join(carpeta_destino, nuevo_nombre)
 
                 # Guardar el archivo
