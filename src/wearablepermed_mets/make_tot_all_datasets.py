@@ -25,10 +25,6 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
 
             carpetas_pmp.append(nombre)
 
-
-
-    participantes = []
-
     # Se recorren las carpetas
     for carpeta in carpetas_pmp:
 
@@ -43,7 +39,7 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
             lista_archivos_tot_M_features_mets = [f for f in lista_archivos if '_tot_M_features_mets' in f]
 
             # Buscar archivos que contengan '_PI_tot'
-            lista_archivos_tot_PI_features_mets = [f for f in lista_archivos if '_tot_M_features_mets' in f]
+            lista_archivos_tot_PI_features_mets = [f for f in lista_archivos if '_tot_PI_features_mets' in f]
 
             # Verificar que existan ambos archivos
             if not lista_archivos_tot_M_features_mets or not lista_archivos_tot_PI_features_mets:
