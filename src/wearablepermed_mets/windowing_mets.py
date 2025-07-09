@@ -82,7 +82,7 @@ def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_ex
 
         # Importamos los datos
         data = np.load(ruta_datos_features)
-        X = data['arr_--ruta-datos-features0']
+        X = data['arr_0']
         y_Actividades = data['arr_1']
 
         print(np.isnan(X).sum(), np.isinf(X).sum())
@@ -120,7 +120,7 @@ def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_ex
             ruta_guardado = os.path.join(carpeta_destino, nuevo_nombre)
 
             # Guardar el archivo
-            np.savez(ruta_guardado, arr0=X_con_METS, arr1=y_METS)
+            np.savez(ruta_guardado, arr0=X_con_METS, arr1=y_METS, arr2 = y_Actividades_METS)
 
             print(f"Archivo guardado en: {ruta_guardado}")
 

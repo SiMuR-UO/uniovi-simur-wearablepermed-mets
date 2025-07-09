@@ -61,7 +61,7 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
 
             X_tot_M_features_mets = tot_M_features_mets['arr0']
             y_tot_M_features_mets = tot_M_features_mets['arr1']
-
+            actividades_tot_M_features_mets = tot_M_features_mets['arr2']
 
             # Cargar datos de _tot_PI_features_mets
             ruta_tot_PI_features_mets = glob.glob(os.path.join(ruta_completa_PMP, lista_archivos_tot_PI_features_mets[0]))[0]
@@ -70,6 +70,7 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
 
             X_tot_PI_features_mets = tot_PI_features_mets['arr0']
             y_tot_PI_features_mets = tot_PI_features_mets['arr1']
+            actividades_tot_PI_features_mets = tot_M_features_mets['arr2']
 
             # Interpolar por si hay diferencia de tiempos
             if len(y_tot_M_features_mets) >= len(y_tot_PI_features_mets):
@@ -79,6 +80,9 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
                 interpolador_PI = interp1d(y_tot_PI_features_mets, X_tot_PI_features_mets, axis=0, kind='linear', fill_value="extrapolate")
                 X_PI_interp = interpolador_PI(y_objetivo)
                 X_concat = np.concatenate((X_tot_M_features_mets, X_PI_interp), axis=1)
+
+                y_actividades = actividades_tot_M_features_mets
+
                 
             else:
                 y_objetivo = y_tot_PI_features_mets
@@ -87,11 +91,14 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
                 X_M_interp = interpolador_M(y_objetivo)
                 X_concat = np.concatenate((X_M_interp, X_tot_PI_features_mets), axis=1)
 
+                y_actividades = actividades_tot_PI_features_mets
+
             print(X_tot_M_features_mets.shape, X_tot_PI_features_mets.shape)
             _logger.info(X_concat.shape)
 
             X_PI_M = X_concat 
             y_PI_M = y_objetivo
+            y_PI_M_Actividades = y_actividades
 
             # Guardar el archivo con un nombre completo
 
@@ -113,7 +120,7 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
                 ruta_guardado = os.path.join(carpeta_destino, nuevo_nombre)
 
                 # Guardar el archivo
-                np.savez(ruta_guardado, arr0=X_PI_M, arr1=y_PI_M)
+                np.savez(ruta_guardado, arr0=X_PI_M, arr1=y_PI_M, arr2=y_PI_M_Actividades)
 
                 print(f"Archivo guardado en: {ruta_guardado}")
 

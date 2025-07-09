@@ -32,6 +32,10 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
     X_all_participantes = []
     y_all_participantes = []
 
+    id_participante_M = []
+    id_participante_PI = []
+    id_participante_all = []
+
     # Se recorren las carpetas
     for carpeta in carpetas_pmp:
 
@@ -77,6 +81,8 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
             X_M_participantes.append(X_tot_M_features_mets)
             y_M_participantes.append(y_tot_M_features_mets)
 
+            id_array = np.array([carpeta] * len(y_tot_M_features_mets))
+            id_participante_M.append(id_array)
 
             # Cargar datos de _tot_PI_features_mets
             ruta_tot_PI_features_mets = glob.glob(os.path.join(ruta_completa_PMP, lista_archivos_tot_PI_features_mets[0]))[0]
@@ -88,6 +94,9 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
             X_PI_participantes.append(X_tot_PI_features_mets)
             y_PI_participantes.append(y_tot_PI_features_mets)
 
+            id_array = np.array([carpeta] * len(y_tot_PI_features_mets))
+            id_participante_PI.append(id_array)
+
             # Cargar datos de _tot_PI_features_mets
             ruta_tot_all_features_mets = glob.glob(os.path.join(ruta_completa_PMP, lista_archivos_tot_all_features_mets[0]))[0]
 
@@ -96,7 +105,10 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
             X_tot_all_features_mets = tot_all_features_mets['arr0']
             y_tot_all_features_mets = tot_all_features_mets['arr1']
             X_all_participantes.append(X_tot_all_features_mets)
-            y_all_participantes.append(y_tot_all_features_mets)         
+            y_all_participantes.append(y_tot_all_features_mets)
+
+            id_array = np.array([carpeta] * len(y_tot_all_features_mets))
+            id_participante_all.append(id_array)   
 
         except Exception as e:
             print(f"Error procesando carpeta {carpeta}: {e}")
@@ -111,19 +123,22 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
 
             nuevo_nombre = f"data_all_tot_M_features_mets.npz"
             ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
-            np.savez(ruta_guardado, arr0=X_M_participantes, arr1=y_M_participantes)
+
+            np.savez(ruta_guardado, arr0=X_M_participantes, arr1=y_M_participantes, arr2=id_participante_M)
 
             nuevo_nombre = f"data_all_tot_PI_features_mets.npz"
             ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
-            np.savez(ruta_guardado, arr0=X_PI_participantes, arr1=y_PI_participantes)
+            np.savez(ruta_guardado, arr0=X_PI_participantes, arr1=y_PI_participantes, arr2=id_participante_PI)
 
             nuevo_nombre = f"data_all_tot_all_features_mets.npz"
             ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
-            np.savez(ruta_guardado, arr0=X_all_participantes, arr1=y_all_participantes)
+            np.savez(ruta_guardado, arr0=X_all_participantes, arr1=y_all_participantes, arr2=id_participante_all)
 
         else:
             print(f"📁 La carpeta ya existe: {ruta_caso}\n")
             print(f"NO SE SOBREESCRIBEN LOS DATOS")
+
+        print(id_participante_M)
 
     return
 
