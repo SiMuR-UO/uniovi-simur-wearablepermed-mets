@@ -21,9 +21,74 @@ A longer description of your project goes here...
 
 <!-- pyscaffold-notes -->
 
+## Create venv in windows
+
+      ```
+     Open Anaconda Prompt
+     Go to the git project folder ($ cd .....)
+     $ python -m venv .venv                  
+     $ .venv\Scripts\activate
+     Do ($ conda deactivate) to remove (base)             
+     ```
+
+## How install packets in venv in Windows
+
+     ```
+     Open Anaconda Prompt
+     Go to the git project folder ($ cd .....)
+     Apply ($ .venv\Scripts\activate)
+     Do ($ conda deactivate) to remove (base)
+
+     Then, it is able to do ($ pip install ....)
+
+     ($ exit) for exit
+     ```
+
+## Save dependencies in a requirements .txt
+
+     ```
+     $ pip freeze > requirements.txt
+     ```
+
+## Create venv in Linux and install the dependencies
+
+      ```
+     $ python3 -m venv .venv
+     $ source .venv/bin/activate
+     $ pip install -r requirements.txt
+     ```
+
+## Create dockerFile and Compile de image
+
+     ```
+     Imagen base: aunque sea python, es una distribucion de linux con un python instalado
+     Crearse una carpeta /app en esa imagen de linux 
+     Actualizar el git del linux
+     Actualizar el pip
+
+     Copiar de la carpeta donde se ubica el Dockefile el requirements
+     Instalar con el pip el requirements
+
+     Guardar el fichero de python el la carpeta /app de esa imagen de linux
+
+     (CMD [ "sh" ]) Permite tener una shell, sin embargo, si se hace un docker run no se vería porque el contenedor
+     se crea y se destruye. Para ver esa imagen de linux hay que añadir el parametro -it, que permite tener una shell
+     interactiva y permite jugar con el linux. Todo lo que se quiera guardar de forma persistente deberia guardarse en un
+     volumen en una ruta del host.
+
+     ```
+
+
+
 ## Execute from Docker
 
      ```
+     -v Volumenes: ruta que permite compartir archivos entre el host y el contenedor. Monta los archivos de la ruta del host (un Windows, un servidor linux ...) en la ruta deseada del contenedor (un linux que corre en el contenedor). Permite guardar datos importantes en el host aunque el contenedor muera. Hay que seguirlo del nombre del contenedor.
+     python mas el nombre del fichero ejecutable
+     Parámetros
+
+     Ejemplo:
+
      $ docker run \
       -v /mnt/nvme1n2/git/uniovi-simur-wearablepermed-data/input:/app/data uniovi-simur-wearablepermed-mets:1.0.0 \
      python windowing_mets.py \
