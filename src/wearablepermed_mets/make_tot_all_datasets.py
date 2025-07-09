@@ -14,7 +14,6 @@ __author__ = "Pablo Laviana <uo283485@uniovi.es>"
 __copyright__ = "Uniovi"
 __license__ = "MIT"
 
-
 def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
 
     carpetas_pmp = []
