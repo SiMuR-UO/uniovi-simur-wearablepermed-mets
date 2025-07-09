@@ -127,7 +127,6 @@ def generar_npz_mets(ruta_datos_features, ruta_excel_FASE_REPOSO_CON_K5, ruta_ex
         else:
             print("No se pudo extraer número y letra del nombre del archivo.")
 
-
     except Exception as e:
     
         print(f"Error creando archivo npz: {ruta_datos_features} -> {e}")

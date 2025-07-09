@@ -49,7 +49,7 @@ def generar_npz_mets_muneca_muslo(ruta_carpeta_PMPs):
                 if not lista_archivos_tot_M_features_mets:
                     print(f"Falta archivo tot_M_features_mets")
                 
-                if not lista_archivos_tot_M_features_mets:
+                if not lista_archivos_tot_PI_features_mets:
                     print(f"Falta archivo tot_PI_features_mets")
 
                 continue  # Salta a la siguiente carpeta
