@@ -200,7 +200,7 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
     # Crear carpeta si no existe
     if not os.path.exists(ruta_caso):
         os.makedirs(ruta_caso)
-        print(f"📁 Carpeta creada: {ruta_caso}")
+        print(f"Carpeta creada: {ruta_caso}")
 
         nuevo_nombre = f"data_all_tot_M_features_mets.npz"
         ruta_guardado = os.path.join(ruta_caso, nuevo_nombre)
@@ -216,7 +216,7 @@ def generar_npz_mets_todos_participantes(ruta_carpeta_PMPs, ruta_carpeta_destino
         np.savez(ruta_guardado, arr0=X_all_participantes, arr1=y_all_participantes, arr2=actividades_all_participantes, arr3=id_participante_all)
 
     else:
-        print(f"📁 La carpeta ya existe: {ruta_caso}\n")
+        print(f"La carpeta ya existe: {ruta_caso}\n")
         print(f"NO SE SOBREESCRIBEN LOS DATOS")
 
     print(id_participante_M)
